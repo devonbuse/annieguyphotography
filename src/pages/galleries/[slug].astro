@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+import PhotoGrid from '../../components/PhotoGrid.astro';
+import { getGalleries, fmtDate } from '../../lib';
+export async function getStaticPaths() {
+  return (await getGalleries()).map((g) => ({ params: { slug: g.id }, props: { g } }));
+}
+const { g } = Astro.props;
+---
+<Base title={g.data.title} description={g.data.description || `${g.data.title} — ${g.data.category} photography`} image={g.data.cover}>
+  <section class="section wrap">
+    <div class="center head">
+      <p class="eyebrow">{g.data.category} · {fmtDate(g.data.date)}</p>
+      <h1>{g.data.title}</h1>
+      {g.data.description && <p class="desc">{g.data.description}</p>}
+    </div>
+    <PhotoGrid photos={g.data.photos} label={g.data.title} />
+    <p class="center back"><a class="btn" href="/galleries/">← All galleries</a> <a class="btn solid" href="#connect">Book a session like this</a></p>
+  </section>
+</Base>
+<style>
+  .head { margin-bottom: 2.5rem; }
+  .desc { color: var(--muted); max-width: 640px; margin: 0 auto; }
+  .back { margin-top: 3rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+</style>

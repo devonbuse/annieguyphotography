@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import GalleryCard from '../../components/GalleryCard.astro';
+import { getGalleries } from '../../lib';
+const galleries = await getGalleries();
+const cats = [...new Set(galleries.map((g) => g.data.category))];
+---
+<Base title="Galleries" description="Senior, sports, family and branding photography galleries in Tennessee.">
+  <section class="section wrap">
+    <div class="center"><p class="eyebrow">Portfolio</p><h1>Galleries</h1></div>
+    {cats.length > 1 && (
+      <div class="filters">
+        <button class="active" data-cat="all">All</button>
+        {cats.map((c) => <button data-cat={c}>{c}</button>)}
+      </div>
+    )}
+    <div class="grid-cards">
+      {galleries.map((g) => <div data-cat={g.data.category}><GalleryCard g={g} level="h2" /></div>)}
+    </div>
+    <p class="empty center" hidden>New galleries coming soon — <a href="#connect">ask me</a> to see more of this kind of work.</p>
+  </section>
+</Base>
+<script>
+  const btns = [...document.querySelectorAll<HTMLButtonElement>('.filters button')];
+  const items = [...document.querySelectorAll<HTMLElement>('.grid-cards > [data-cat]')];
+  const empty = document.querySelector<HTMLElement>('.empty')!;
+  const pick = (cat: string) => {
+    let shown = 0;
+    btns.forEach((x) => x.classList.toggle('active', x.dataset.cat === cat));
+    items.forEach((el) => { el.hidden = cat !== 'all' && el.dataset.cat !== cat; if (!el.hidden) shown++; });
+    empty.hidden = shown > 0;
+  };
+  btns.forEach((b) => b.addEventListener('click', () => {
+    pick(b.dataset.cat!);
+    history.replaceState(null, '', b.dataset.cat === 'all' ? location.pathname : `?cat=${encodeURIComponent(b.dataset.cat!)}`);
+  }));
+  const start = new URLSearchParams(location.search).get('cat');
+  if (start) pick(start);
+</script>
+<style>
+  .filters { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin: 1.5rem 0 2.5rem; }
+  .filters button { background: var(--paper); border: 1px solid #d6cabd; border-radius: 999px; padding: .55rem 1.2rem; font-family: var(--sans); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; cursor: pointer; color: var(--ink); font-weight: 450; }
+  .filters button.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .empty { color: var(--muted); }
+  .empty a { color: var(--accent); }
+</style>

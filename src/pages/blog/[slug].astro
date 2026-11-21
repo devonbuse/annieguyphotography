@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import PhotoGrid from '../../components/PhotoGrid.astro';
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import { getPosts, fmtDate, excerpt } from '../../lib';
+export async function getStaticPaths() {
+  return (await getPosts()).map((p) => ({ params: { slug: p.id }, props: { p } }));
+}
+const { p } = Astro.props;
+const { Content } = await render(p);
+---
+<Base title={p.data.title} description={excerpt(p)} image={p.data.cover ?? p.data.photos[0]}>
+  <article class="section wrap">
+    <div class="center"><p class="eyebrow">{fmtDate(p.data.date)}</p><h1>{p.data.title}</h1></div>
+    {p.data.cover && <Image class="cover" src={p.data.cover} alt={p.data.title} widths={[640, 1100, 1600].filter((w) => w <= p.data.cover!.width)} sizes="(max-width: 1000px) 100vw, 1000px" loading="eager" fetchpriority="high" />}
+    <div class="prose"><Content /></div>
+    {p.data.photos.length > 0 && <div class="photos"><PhotoGrid photos={p.data.photos} label={p.data.title} /></div>}
+    <p class="center"><a class="btn" href="/blog/">← All posts</a></p>
+  </article>
+</Base>
+<style>
+  .cover { width: 100%; max-width: 1000px; margin: 2rem auto 3rem; aspect-ratio: 16/9; object-fit: cover; }
+  .photos { max-width: 1000px; margin: 2.5rem auto 0; }
+  .prose + p, .photos + p { margin-top: 3rem; }
+</style>

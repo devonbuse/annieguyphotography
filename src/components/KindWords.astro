@@ -1,0 +1,23 @@
+---
+import { getEntry } from 'astro:content';
+const site = (await getEntry('site', 'home'))!.data;
+---
+{site.testimonials.length > 0 && (
+  <section class="section words">
+    <div class="wrap">
+      <div class="center"><p class="eyebrow">Kind words</p><h2>From my clients</h2></div>
+      <div class="grid">
+        {site.testimonials.map((t) => (
+          <figure><blockquote>“{t.quote}”</blockquote><figcaption>— {t.name}</figcaption></figure>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+<style>
+  .words { background: var(--paper); border-top: 1px solid var(--line); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; }
+  figure { margin: 0; text-align: center; }
+  blockquote { margin: 0 0 .8rem; font-family: var(--serif); font-style: italic; font-size: 1.35rem; line-height: 1.45; }
+  figcaption { color: var(--muted); font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; }
+</style>

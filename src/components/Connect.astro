@@ -1,0 +1,27 @@
+---
+// "Let's connect" block shown at the bottom of every page.
+import { getEntry } from 'astro:content';
+import LeadForm from './LeadForm.astro';
+const site = (await getEntry('site', 'home'))!.data;
+const tel = site.phone.replace(/[^\d+]/g, '');
+---
+<section id="connect" class="connect section">
+  <div class="wrap grid">
+    <div>
+      <p class="eyebrow">Let's connect</p>
+      <h2>Ready to make some memories?</h2>
+      <p>Send a quick note and I'll get back to you with availability and details. No pressure — just a conversation.</p>
+      {site.phone && (
+        <p class="call">Prefer to talk? <a href={`tel:${tel}`}>Call or text {site.phone}</a></p>
+      )}
+    </div>
+    <LeadForm />
+  </div>
+</section>
+<style>
+  .connect { background: var(--paper); border-top: 1px solid var(--line); }
+  .grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 3.5rem; align-items: start; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; gap: 1.5rem; } }
+  p { color: var(--muted); }
+  .call a { color: var(--ink); font-weight: 450; }
+</style>

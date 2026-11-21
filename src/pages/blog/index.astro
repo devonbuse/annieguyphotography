@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro';
+import { Image } from 'astro:assets';
+import { getPosts, fmtDate, excerpt } from '../../lib';
+const posts = await getPosts();
+---
+<Base title="Blog" description="Session stories, tips, and behind-the-scenes.">
+  <section class="section wrap">
+    <div class="center"><p class="eyebrow">Journal</p><h1>Blog</h1></div>
+    <div class="list">
+      {posts.map((p) => (
+        <a class="post" href={`/blog/${p.id}/`}>
+          {(p.data.cover ?? p.data.photos[0]) && <Image src={(p.data.cover ?? p.data.photos[0])!} alt={p.data.title} widths={[400, 800]} sizes="(max-width: 700px) 100vw, 380px" />}
+          <div>
+            <p class="eyebrow">{fmtDate(p.data.date)}</p>
+            <h2>{p.data.title}</h2>
+            <p class="ex">{excerpt(p)}</p>
+            <span class="more">Read more →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>
+<style>
+  .list { max-width: 960px; margin: 2.5rem auto 0; display: grid; gap: 3rem; }
+  .post { display: grid; grid-template-columns: 380px 1fr; gap: 2rem; align-items: center; text-decoration: none; }
+  .post img { aspect-ratio: 3/2; object-fit: cover; width: 100%; }
+  .post h2 { font-size: 2rem; }
+  .ex { color: var(--muted); }
+  .more { color: var(--accent); font-size: .85rem; letter-spacing: .1em; text-transform: uppercase; }
+  @media (max-width: 700px) { .post { grid-template-columns: 1fr; gap: 1rem; } }
+</style>

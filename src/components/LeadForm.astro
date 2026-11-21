@@ -1,0 +1,74 @@
+---
+// Short, friendly inquiry form. Answers go straight into Annie's Google Form (and its Sheet).
+import { getEntry } from 'astro:content';
+import { parseGoogleForm } from '../googleForm';
+interface Props { full?: boolean }
+const { full = false } = Astro.props;
+const site = (await getEntry('site', 'home'))!.data;
+const types = [...site.packages.map((p) => `${p.name} (${p.price})`), 'Sports session', 'Headshots', 'Not sure yet'];
+const gf = parseGoogleForm(site.googleFormLink);
+if (site.googleFormLink && !gf) console.warn('[LeadForm] Google Form link could not be read — showing contact buttons instead. See SETUP.md.');
+const f = gf?.fields;
+---
+{gf && f ? (
+  <form class="lead" action={gf.action} method="POST" target="_blank" data-lead>
+    <div class="row">
+      <label>Name<input name={f.name} autocomplete="name" required /></label>
+      <label>Email<input type="email" name={f.email} autocomplete="email" required /></label>
+    </div>
+    {(f.phone || f.session) && (
+      <div class="row">
+        {f.phone && <label>Phone <span class="opt">(optional)</span><input type="tel" name={f.phone} autocomplete="tel" /></label>}
+        {f.session && (
+          <label>Session type
+            <select name={f.session}>{types.map((t) => <option>{t}</option>)}</select>
+          </label>
+        )}
+      </div>
+    )}
+    {f.message && (
+      <label>{full ? 'Tell me about what you have in mind' : 'Message'} {!full && <span class="opt">(optional)</span>}
+        <textarea name={f.message} rows={full ? 5 : 3} required={full}></textarea>
+      </label>
+    )}
+    <button class="btn solid" type="submit">Send message</button>
+    <p class="status" role="status" aria-live="polite"></p>
+  </form>
+) : (
+  <div class="lead-alt">
+    {site.messenger && <a class="btn solid" href={site.messenger} rel="noopener">Message on Facebook</a>}
+    {site.email && <a class="btn" href={`mailto:${site.email}?subject=Photo session inquiry`}>Email {site.photographer}</a>}
+  </div>
+)}
+
+<script>
+  // Sends in the background so visitors stay on the site. Google doesn't report back to other
+  // websites, so a network failure is the only error we can catch.
+  document.querySelectorAll<HTMLFormElement>('form[data-lead]').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const status = form.querySelector<HTMLElement>('.status')!;
+      const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+      btn.disabled = true; status.textContent = 'Sending…';
+      try {
+        await fetch(form.action, { method: 'POST', mode: 'no-cors', body: new URLSearchParams(new FormData(form) as any) });
+        form.reset();
+        status.textContent = "Thank you! I'll get back to you soon.";
+      } catch {
+        status.textContent = "Sorry, that didn't go through. Please call or message me on Facebook instead.";
+      } finally { btn.disabled = false; }
+    });
+  });
+</script>
+<style>
+  .lead { display: grid; gap: 1rem; text-align: left; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
+  label { display: grid; gap: .35rem; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 450; }
+  .opt { text-transform: none; letter-spacing: 0; color: var(--muted); font-weight: 350; }
+  input, select, textarea { font: inherit; font-size: 1rem; letter-spacing: normal; text-transform: none; padding: .8rem; border: 1px solid #d6cabd; background: var(--paper); color: var(--ink); border-radius: 2px; width: 100%; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .status { margin: 0; min-height: 1.5em; color: var(--accent); }
+  .lead button { justify-self: start; }
+  .lead-alt { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+</style>

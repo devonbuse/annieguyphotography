@@ -1,0 +1,12 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+interface Props { g: CollectionEntry<'galleries'>; level?: 'h2' | 'h3' }
+const { g, level = 'h3' } = Astro.props;
+const H = level;
+---
+<a class="card" href={`/galleries/${g.id}/`}>
+  <div class="img"><Image src={g.data.cover} alt={g.data.title} widths={[400, 700, 1000]} sizes="(max-width: 700px) 100vw, 400px" /></div>
+  <H class="t">{g.data.title}</H>
+  <p class="meta">{g.data.category} · {g.data.photos.length} photos</p>
+</a>

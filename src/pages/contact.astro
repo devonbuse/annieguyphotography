@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import LeadForm from '../components/LeadForm.astro';
+import { getEntry } from 'astro:content';
+const site = (await getEntry('site', 'home'))!.data;
+const tel = site.phone.replace(/[^\d+]/g, '');
+---
+<Base title="Contact" description={`Book a photo session with ${site.photographer} in ${site.location}.`} hideConnect>
+  <section class="section wrap">
+    <div class="center intro">
+      <p class="eyebrow">Say hello</p><h1>Book a session</h1>
+      <p class="sub">Tell me a little about what you have in mind and I'll get back to you with availability and details.</p>
+      <div class="quick">
+        {site.phone && <a class="btn" href={`tel:${tel}`}>Call or text {site.phone}</a>}
+        {site.messenger && <a class="btn" href={site.messenger} rel="noopener">Message on Facebook</a>}
+        {site.instagram && <a class="btn" href={site.instagram} rel="noopener">Instagram</a>}
+      </div>
+    </div>
+    <div id="inquiry" class="form"><LeadForm full /></div>
+  </section>
+</Base>
+<style>
+  .sub { color: var(--muted); max-width: 560px; margin: 0 auto 1.5rem; }
+  .quick { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
+  .form { max-width: 680px; margin: 3rem auto 0; background: var(--paper); border: 1px solid var(--line); padding: clamp(1.25rem, 4vw, 2.5rem); }
+</style>

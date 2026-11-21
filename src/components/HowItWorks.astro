@@ -1,0 +1,22 @@
+---
+import { getEntry } from 'astro:content';
+const site = (await getEntry('site', 'home'))!.data;
+---
+{site.steps.length > 0 && (
+  <section class="section how">
+    <div class="wrap">
+      <div class="center"><p class="eyebrow">Your experience</p><h2>How it works</h2></div>
+      <ol>
+        {site.steps.map((s, i) => (
+          <li><span class="n">{String(i + 1).padStart(2, '0')}</span><h3>{s.title}</h3><p>{s.text}</p></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+)}
+<style>
+  ol { list-style: none; padding: 0; margin: 2.5rem 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; }
+  .n { font-family: var(--serif); font-size: 2.4rem; color: var(--accent); line-height: 1; display: block; margin-bottom: .6rem; }
+  h3 { margin-bottom: .3rem; }
+  li p { color: var(--muted); margin: 0; }
+</style>

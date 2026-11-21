@@ -1,0 +1,96 @@
+---
+// Full-screen hero. Only the FIRST photo loads up front (fast first paint);
+// the rest load quietly after the page finishes, then crossfade slowly.
+import { getImage } from 'astro:assets';
+interface Props { images: ImageMetadata[]; eyebrow: string; title: string; galleryHref: string; connectHref: string }
+const { images, eyebrow, title, galleryHref, connectHref } = Astro.props;
+const wide = [960, 1280, 1920, 2560];
+const tall = [480, 720, 1080];
+// Phones get a portrait crop (smart-cropped around the interesting part of the photo),
+// so the picture fills a tall screen sharply without downloading a giant landscape file.
+const slides = await Promise.all(images.map(async (src) => {
+  const w = wide.filter((x) => x <= src.width);
+  const land = await getImage({ src, widths: w.length ? w : [src.width], format: 'webp', quality: 70 });
+  const crop = { src, width: 1080, height: 1440, widths: tall, fit: 'cover', position: 'attention' } as const;
+  const port = await getImage({ ...crop, format: 'webp', quality: 62 });
+  return { land: land.srcSet.attribute, landSrc: land.src, port: port.srcSet.attribute };
+}));
+const portrait = '(orientation: portrait)';
+---
+<section class="hero" aria-label="Featured photos">
+  <div class="slides">
+    {slides.map((s, i) => i === 0 ? (
+      <picture class="slide on">
+        <source media={portrait} srcset={s.port} sizes="100vw" />
+        <img src={s.landSrc} srcset={s.land} sizes="100vw" alt="" fetchpriority="high" />
+      </picture>
+    ) : (
+      <picture class="slide">
+        <source media={portrait} data-srcset={s.port} sizes="100vw" />
+        <img data-srcset={s.land} sizes="100vw" alt="" decoding="async" />
+      </picture>
+    ))}
+  </div>
+  <div class="scrim"></div>
+  <div class="content wrap">
+    <p class="eyebrow">{eyebrow}</p>
+    <h1>{title}</h1>
+    <div class="ctas">
+      <a class="btn hero-solid" href={galleryHref}>View galleries</a>
+      <a class="btn hero-ghost" href={connectHref}>Let's connect</a>
+    </div>
+  </div>
+  {slides.length > 1 && (
+    <div class="dots" role="group" aria-label="Choose photo">
+      {slides.map((_, i) => <button aria-label={`Photo ${i + 1}`} class={i === 0 ? 'on' : ''}></button>)}
+    </div>
+  )}
+</section>
+
+<script>
+  const HOLD = 7000; // ms each photo stays on screen
+  const hero = document.querySelector<HTMLElement>('.hero')!;
+  const slides = [...hero.querySelectorAll<HTMLElement>('.slide')];
+  const dots = [...hero.querySelectorAll<HTMLButtonElement>('.dots button')];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let i = 0, timer: number | undefined;
+  const ready = (p: HTMLElement) => { const img = p.querySelector('img')!; return img.complete && img.naturalWidth > 0; };
+  const go = (n: number) => {
+    const next = (n + slides.length) % slides.length;
+    if (!ready(slides[next])) return; // skip until loaded
+    slides[i].classList.remove('on'); dots[i]?.classList.remove('on');
+    i = next;
+    slides[i].classList.add('on'); dots[i]?.classList.add('on');
+  };
+  const play = () => { clearInterval(timer); if (!reduce && slides.length > 1) timer = window.setInterval(() => go(i + 1), HOLD); };
+  dots.forEach((d, n) => d.addEventListener('click', () => { go(n); play(); }));
+  document.addEventListener('visibilitychange', () => document.hidden ? clearInterval(timer) : play());
+  addEventListener('load', () => {
+    const load = () => hero.querySelectorAll<HTMLImageElement | HTMLSourceElement>('[data-srcset]').forEach((el) => { el.srcset = el.dataset.srcset!; delete el.dataset.srcset; });
+    ('requestIdleCallback' in window ? requestIdleCallback : setTimeout)(load as any);
+    play();
+  });
+</script>
+<style>
+  .hero { position: relative; height: calc(100svh - 68px); min-height: 520px; max-height: 1000px; overflow: hidden; background: #3a332e; color: #fff; }
+  .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 2s ease-in-out; }
+  .slide img { width: 100%; height: 100%; object-fit: cover; }
+  .slide.on { opacity: 1; }
+  /* Dark scrim so white text is always readable, even over bright/white photos */
+  .scrim { position: absolute; inset: 0; background:
+      linear-gradient(to top, rgba(25,20,17,.78) 0%, rgba(25,20,17,.45) 35%, rgba(25,20,17,.08) 65%, rgba(25,20,17,0) 100%),
+      rgba(25,20,17,.12); }
+  .content { position: absolute; left: 0; right: 0; bottom: clamp(3.5rem, 10vh, 6.5rem); text-align: center; z-index: 2; }
+  .content .eyebrow { color: #fff; opacity: .92; text-shadow: 0 1px 8px rgba(0,0,0,.5); }
+  h1 { font-style: italic; font-weight: 450; color: #fff; text-shadow: 0 2px 18px rgba(0,0,0,.45); margin-bottom: 1.6rem; }
+  .ctas { display: flex; gap: .9rem; justify-content: center; flex-wrap: wrap; }
+  .hero-solid { background: #fff; border-color: #fff; color: var(--ink); }
+  .hero-solid:hover { background: var(--cream); color: var(--ink); }
+  .hero-ghost { color: #fff; border-color: rgba(255,255,255,.9); background: rgba(25,20,17,.35); backdrop-filter: blur(4px); }
+  .hero-ghost:hover { background: #fff; color: var(--ink); }
+  .dots { position: absolute; bottom: 1.2rem; left: 0; right: 0; display: flex; justify-content: center; gap: .3rem; z-index: 2; }
+  .dots button { width: 28px; height: 28px; border: 0; background: none; cursor: pointer; position: relative; padding: 0; }
+  .dots button::after { content: ''; position: absolute; left: 50%; top: 50%; width: 7px; height: 7px; margin: -3.5px; border-radius: 50%; background: rgba(255,255,255,.5); transition: background .3s, transform .3s; }
+  .dots button.on::after { background: #fff; transform: scale(1.25); }
+  @media (max-width: 600px) { .ctas .btn { flex: 1 1 140px; padding: .95rem 1rem; } }
+</style>
