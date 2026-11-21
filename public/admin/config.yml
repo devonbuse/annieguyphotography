@@ -6,8 +6,8 @@ backend:
   # Optional: one-tap GitHub login (see SETUP.md, step 5). Without it, sign in with an access token.
   # base_url: https://sveltia-cms-auth.YOUR-ACCOUNT.workers.dev
 
-site_url: https://annieguyphotography.pages.dev
-display_url: https://annieguyphotography.pages.dev
+site_url: https://annieguyphotography.devon-80e.workers.dev
+display_url: https://annieguyphotography.devon-80e.workers.dev
 
 # Every uploaded photo lands here. Paths are written relative to the content files.
 media_folder: src/assets/uploads
