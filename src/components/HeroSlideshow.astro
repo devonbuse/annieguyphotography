@@ -82,12 +82,12 @@ const portrait = '(orientation: portrait)';
       rgba(25,20,17,.12); }
   .content { position: absolute; left: 0; right: 0; bottom: clamp(3.5rem, 10vh, 6.5rem); text-align: center; z-index: 2; }
   .content .eyebrow { color: #fff; opacity: .92; text-shadow: 0 1px 8px rgba(0,0,0,.5); }
-  h1 { font-style: italic; font-weight: 450; color: #fff; text-shadow: 0 2px 18px rgba(0,0,0,.45); margin-bottom: 1.6rem; }
+  h1 { font-weight: 450; color: #fff; text-shadow: 0 2px 18px rgba(0,0,0,.45); margin-bottom: 1.6rem; }
   .ctas { display: flex; gap: .9rem; justify-content: center; flex-wrap: wrap; }
-  .hero-solid { background: #fff; border-color: #fff; color: var(--ink); }
-  .hero-solid:hover { background: var(--cream); color: var(--ink); }
+  .hero-solid { background: var(--accent); border-color: var(--accent); color: var(--cream); }
+  .hero-solid:hover { background: #fff; border-color: #fff; color: var(--cream); }
   .hero-ghost { color: #fff; border-color: rgba(255,255,255,.9); background: rgba(25,20,17,.35); backdrop-filter: blur(4px); }
-  .hero-ghost:hover { background: #fff; color: var(--ink); }
+  .hero-ghost:hover { background: #fff; color: var(--cream); }
   .dots { position: absolute; bottom: 1.2rem; left: 0; right: 0; display: flex; justify-content: center; gap: .3rem; z-index: 2; }
   .dots button { width: 28px; height: 28px; border: 0; background: none; cursor: pointer; position: relative; padding: 0; }
   .dots button::after { content: ''; position: absolute; left: 50%; top: 50%; width: 7px; height: 7px; margin: -3.5px; border-radius: 50%; background: rgba(255,255,255,.5); transition: background .3s, transform .3s; }

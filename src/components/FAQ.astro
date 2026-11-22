@@ -1,0 +1,27 @@
+---
+import { getEntry } from 'astro:content';
+const site = (await getEntry('site', 'home'))!.data;
+---
+{site.faqs.length > 0 && (
+  <section id="faq" class="section">
+    <div class="wrap narrow">
+      <div class="center"><p class="eyebrow">Good to know</p><h2>Questions</h2></div>
+      {site.faqs.map((f) => (
+        <details>
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+)}
+<style>
+  .narrow { max-width: 760px; }
+  details { border-bottom: 1px solid var(--line); }
+  details:first-of-type { border-top: 1px solid var(--line); margin-top: 2rem; }
+  summary { cursor: pointer; list-style: none; padding: 1.2rem 2rem 1.2rem 0; position: relative; font-family: var(--serif); font-size: 1.35rem; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; position: absolute; right: .25rem; top: 50%; transform: translateY(-50%); font-family: var(--sans); font-size: 1.4rem; color: var(--accent); }
+  details[open] summary::after { content: '–'; }
+  details p { margin: 0 0 1.3rem; color: var(--muted); }
+</style>

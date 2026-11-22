@@ -39,8 +39,8 @@ const cats = [...new Set(galleries.map((g) => g.data.category))];
 </script>
 <style>
   .filters { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin: 1.5rem 0 2.5rem; }
-  .filters button { background: var(--paper); border: 1px solid #d6cabd; border-radius: 999px; padding: .55rem 1.2rem; font-family: var(--sans); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; cursor: pointer; color: var(--ink); font-weight: 450; }
-  .filters button.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .filters button { background: var(--paper); border: 1px solid #4a3f33; border-radius: 999px; padding: .55rem 1.2rem; font-family: var(--sans); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; cursor: pointer; color: var(--ink); font-weight: 450; }
+  .filters button.active { background: var(--accent); color: var(--cream); border-color: var(--accent); }
   .empty { color: var(--muted); }
   .empty a { color: var(--accent); }
 </style>

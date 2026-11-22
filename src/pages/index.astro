@@ -5,6 +5,7 @@ import GalleryCard from '../components/GalleryCard.astro';
 import Packages from '../components/Packages.astro';
 import HowItWorks from '../components/HowItWorks.astro';
 import KindWords from '../components/KindWords.astro';
+import FAQ from '../components/FAQ.astro';
 import { Image } from 'astro:assets';
 import { getEntry } from 'astro:content';
 import { getGalleries, getPosts, fmtDate } from '../lib';
@@ -37,6 +38,8 @@ const posts = (await getPosts()).slice(0, 3);
   <Packages />
 
   <HowItWorks />
+
+  <FAQ />
 
   <KindWords />
 
@@ -79,8 +82,8 @@ const posts = (await getPosts()).slice(0, 3);
 </Base>
 <style>
   .pills { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; padding-top: 1.75rem; padding-bottom: .25rem; }
-  .pills a { text-decoration: none; border: 1px solid #d6cabd; border-radius: 999px; padding: .55rem 1.2rem; font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 450; background: var(--paper); transition: all .2s; }
-  .pills a:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .pills a { text-decoration: none; border: 1px solid #4a3f33; color: var(--ink); border-radius: 999px; padding: .55rem 1.2rem; font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 450; background: var(--paper); transition: all .2s; }
+  .pills a:hover { background: var(--accent); color: var(--cream); border-color: var(--accent); }
   .intro { padding-top: 3rem; }
   .intro h2 { max-width: 820px; margin: 0 auto; font-weight: 400; }
   .tight { padding-top: 0; }

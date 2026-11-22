@@ -35,11 +35,12 @@ steps:
   - title: Enjoy your session
     text: Relaxed and easygoing. I'll guide you the whole way, so no modeling experience needed.
   - title: Get your gallery
-    text: Your photos are delivered in a private online gallery, ready to download and share.
+    text: Your photos arrive in a private online gallery within 2–3 weeks — often sooner.
 packages:
   - name: Package One
     label: Basic mini
     price: $100
+    bestFor: A quick session — great for little ones or a fresh print for the wall.
     features:
       - 15 minutes
       - Private online gallery for delivery
@@ -49,6 +50,7 @@ packages:
   - name: Package Two
     label: Most popular
     price: $175
+    bestFor: Room to relax, explore, and change outfits.
     popular: true
     features:
       - 30 minutes
@@ -59,6 +61,7 @@ packages:
   - name: Package Three
     label: Complete
     price: $250
+    bestFor: Ideal for seniors and cap & gown, with a mix of posed and candid shots.
     features:
       - 1 hour coverage
       - Private online gallery for delivery
@@ -66,6 +69,15 @@ packages:
       - One to two outfits
       - Up to 2 locations (venue fees may apply)
 packagesNote: Sports sessions and headshots are also available — message me for pricing!
+faqs:
+  - q: How soon will I get my photos?
+    a: Officially within 2–3 weeks, but most galleries are delivered in about a week to a week and a half.
+  - q: Do you do school sports photos?
+    a: Yes! I offer special pricing for school media days, with dramatic lighting and fog machines for photos that stand out.
+  - q: Do you have a senior year bundle?
+    a: Yes — each year I offer a senior special that bundles a senior session, a sports or fall session, cap and gown, and prom for one price. Message me for this year's details.
+  - q: Can I get a custom package?
+    a: Absolutely. Reach out and we'll set up a quick call to talk through what you have in mind.
 testimonials: []
 phone: ""
 email: annielynnpotter@gmail.com

@@ -16,6 +16,7 @@ const site = (await getEntry('site', 'home'))!.data;
             {p.label && <p class="label">{p.label}</p>}
             <h3>{p.name}</h3>
             <p class="price">{p.price}</p>
+            {p.bestFor && <p class="best">{p.bestFor}</p>}
             <ul>{p.features.map((f) => <li>{f}</li>)}</ul>
             <a class:list={['btn', { solid: p.popular }]} href="#connect" data-pkg={p.name}>Book {p.name}</a>
           </div>
@@ -39,12 +40,13 @@ const site = (await getEntry('site', 'home'))!.data;
   .sub { color: var(--muted); max-width: 600px; margin: 0 auto; }
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; align-items: stretch; }
   .pkg { border: 1px solid var(--line); background: var(--cream); padding: 2rem 1.75rem; text-align: center; display: flex; flex-direction: column; }
-  .pkg.popular { border: 1.5px solid var(--ink); background: #fff; }
+  .pkg.popular { border: 1.5px solid var(--accent); background: #26201a; }
   .label { margin: 0 0 .4rem; font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); font-weight: 450; }
   .pkg h3 { font-size: 1.9rem; margin: 0; }
-  .price { font-family: var(--serif); font-size: 2.6rem; margin: .4rem 0 1rem; line-height: 1; }
+  .price { color: var(--ink); font-family: var(--serif); font-size: 2.6rem; margin: .4rem 0 1rem; line-height: 1; }
+  .best { color: var(--muted); margin: 0 0 1.2rem; font-size: .95rem; line-height: 1.5; }
   ul { list-style: none; padding: 0; margin: 0 0 1.75rem; flex: 1; }
-  li { padding: .5rem 0; border-top: 1px solid var(--line); color: #4a403a; }
+  li { padding: .5rem 0; border-top: 1px solid var(--line); color: var(--ink); }
   li:last-child { border-bottom: 1px solid var(--line); }
   .pkg .btn { align-self: center; }
   .note { margin: 2rem 0 0; font-family: var(--serif); font-style: italic; font-size: 1.3rem; }
