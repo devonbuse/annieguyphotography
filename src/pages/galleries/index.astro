@@ -17,7 +17,7 @@ const cats = [...new Set(galleries.map((g) => g.data.category))];
     <div class="grid-cards">
       {galleries.map((g) => <div data-cat={g.data.category}><GalleryCard g={g} level="h2" /></div>)}
     </div>
-    <p class="empty center" hidden>New galleries coming soon — <a href="#connect">ask me</a> to see more of this kind of work.</p>
+    <p class="empty center" hidden>New galleries coming soon. <a href="#connect">ask me</a> to see more of this kind of work.</p>
   </section>
 </Base>
 <script>
@@ -39,7 +39,7 @@ const cats = [...new Set(galleries.map((g) => g.data.category))];
 </script>
 <style>
   .filters { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin: 1.5rem 0 2.5rem; }
-  .filters button { background: var(--paper); border: 1px solid #4a3f33; border-radius: 999px; padding: .55rem 1.2rem; font-family: var(--sans); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; cursor: pointer; color: var(--ink); font-weight: 450; }
+  .filters button { background: var(--paper); border: 1px solid #4a3f33; border-radius: 999px; padding: .55rem 1.2rem; font-family: var(--label); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; cursor: pointer; color: var(--ink); font-weight: 450; }
   .filters button.active { background: var(--accent); color: var(--cream); border-color: var(--accent); }
   .empty { color: var(--muted); }
   .empty a { color: var(--accent); }

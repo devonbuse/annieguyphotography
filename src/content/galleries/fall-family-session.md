@@ -2,7 +2,7 @@
 title: Fall Family Session
 date: 2026-10-28
 category: Families
-description: Leaves, laughs, and a very wiggly toddler. (Sample gallery — replace with real photos.)
+description: Leaves, laughs, and a very wiggly toddler. (Sample gallery. Replace with real photos.)
 cover: ../../assets/uploads/sample-07.jpg
 featured: true
 photos:

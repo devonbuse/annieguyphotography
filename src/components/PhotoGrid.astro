@@ -5,7 +5,7 @@ interface Props { photos: ImageMetadata[]; label: string }
 const { photos, label } = Astro.props;
 const items = await Promise.all(photos.map(async (src, i) => ({
   src,
-  alt: `${label} — photo ${i + 1}`,
+  alt: `${label}, photo ${i + 1}`,
   full: (await getImage({ src, width: Math.min(2000, src.width), format: 'webp', quality: 80 })).src,
 })));
 ---

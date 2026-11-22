@@ -7,7 +7,7 @@ const { full = false } = Astro.props;
 const site = (await getEntry('site', 'home'))!.data;
 const types = [...site.packages.map((p) => `${p.name} (${p.price})`), 'Sports session', 'Headshots', 'Not sure yet'];
 const gf = parseGoogleForm(site.googleFormLink);
-if (site.googleFormLink && !gf) console.warn('[LeadForm] Google Form link could not be read — showing contact buttons instead. See SETUP.md.');
+if (site.googleFormLink && !gf) console.warn('[LeadForm] Google Form link could not be read; showing contact buttons instead. See SETUP.md.');
 const f = gf?.fields;
 ---
 {gf && f ? (

@@ -1,8 +1,8 @@
 ---
-title: Game Day Sportraits
+title: Sportraits
 date: 2026-09-20
 category: Sportraits
-description: Friday night lights. (Sample gallery — replace with real photos.)
+description: Athlete portraits that show off your sport. (Sample gallery. Replace with real photos.)
 cover: ../../assets/uploads/sample-11.jpg
 featured: true
 photos:

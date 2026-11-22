@@ -2,7 +2,7 @@
 title: Senior Portraits
 date: 2026-10-15
 category: Seniors
-description: A golden-hour senior session. (Sample gallery — replace with real photos.)
+description: A golden-hour senior session. (Sample gallery. Replace with real photos.)
 cover: ../../assets/uploads/sample-02.jpg
 featured: true
 photos:

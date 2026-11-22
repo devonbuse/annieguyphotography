@@ -13,4 +13,4 @@ Thanks for stopping by! This is where I'll share recent sessions, tips for getti
 
 Pick colors that go together without matching exactly, skip big logos, and wear something you feel great in.
 
-Ready to book? Send me a message below — I'd love to hear what you have in mind.
+Ready to book? Send me a message below. I'd love to hear what you have in mind.

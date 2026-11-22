@@ -1,4 +1,4 @@
-# Sveltia CMS — the phone-friendly editor at /admin
+# Sveltia CMS: the phone-friendly editor at /admin
 backend:
   name: github
   repo: devonbuse/annieguyphotography
@@ -34,7 +34,7 @@ collections:
     create: true
     slug: "{{slug}}"
     sortable_fields: [date, title]
-    summary: "{{title}} — {{category}}"
+    summary: "{{title}} ({{category}})"
     fields:
       - { name: title, label: Title, widget: string }
       - { name: date, label: Date, widget: datetime, type: date, default: "{{now}}" }
@@ -63,7 +63,7 @@ collections:
       - { name: body, label: Write your post, widget: markdown, required: false }
       - { name: photos, label: Photos to show under the post (optional), widget: image, multiple: true, required: false }
       - { name: date, label: Date, widget: datetime, type: date, default: "{{now}}" }
-      - { name: excerpt, label: Short summary (optional — made automatically if blank), widget: text, required: false }
+      - { name: excerpt, label: Short summary (optional, made automatically if blank), widget: text, required: false }
       - { name: draft, label: Hide for now, widget: boolean, default: false, required: false }
 
   - name: site
@@ -76,8 +76,9 @@ collections:
           - { name: businessName, label: Business name, widget: string }
           - { name: photographer, label: Photographer name, widget: string }
           - { name: location, label: Location, widget: string }
-          - { name: tagline, label: Headline over the photos, widget: string }
-          - { name: heroImages, label: Home page slideshow photos (3–6 is ideal), widget: image, multiple: true, min: 1, max: 8 }
+          - { name: heroHeading, label: Main heading for Google (small line over the photos), widget: string }
+          - { name: tagline, label: Big headline over the photos, widget: string }
+          - { name: heroImages, label: Home page slideshow photos (3 to 6 is ideal), widget: image, multiple: true, min: 1, max: 8 }
           - { name: intro, label: Intro line, widget: text }
           - { name: categories, label: Session-type buttons under the slideshow, widget: list, required: false }
           - { name: aboutImage, label: About photo, widget: image, required: false }
@@ -116,15 +117,18 @@ collections:
               - { name: q, label: Question, widget: string }
               - { name: a, label: Answer, widget: text }
           - name: testimonials
-            label: Kind words (client reviews — section appears once you add one)
+            label: Kind words (client reviews; section appears once you add one)
             widget: list
             required: false
+            summary: "{{fields.name}}"
             fields:
               - { name: quote, label: What they said, widget: text }
               - { name: name, label: Client name, widget: string }
+              - { name: detail, label: Small note (optional, e.g. Class of 2025), widget: string, required: false }
+              - { name: photo, label: Their photo (optional), widget: image, required: false }
           - { name: phone, label: Phone (shows Call buttons when filled in), widget: string, required: false }
           - { name: email, label: Email, widget: string, required: false }
           - { name: facebook, label: Facebook link, widget: string, required: false }
           - { name: instagram, label: Instagram link, widget: string, required: false }
           - { name: messenger, label: Messenger link, widget: string, required: false }
-          - { name: googleFormLink, label: Google Form pre-filled link (turns on the contact form — see SETUP.md), widget: string, required: false }
+          - { name: googleFormLink, label: Google Form pre-filled link (turns on the contact form, see SETUP.md), widget: string, required: false }

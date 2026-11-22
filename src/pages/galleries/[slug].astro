@@ -7,7 +7,7 @@ export async function getStaticPaths() {
 }
 const { g } = Astro.props;
 ---
-<Base title={g.data.title} description={g.data.description || `${g.data.title} — ${g.data.category} photography`} image={g.data.cover}>
+<Base title={g.data.title} description={g.data.description || `${g.data.title}: ${g.data.category} photography`} image={g.data.cover}>
   <section class="section wrap">
     <div class="center head">
       <p class="eyebrow">{g.data.category} · {fmtDate(g.data.date)}</p>

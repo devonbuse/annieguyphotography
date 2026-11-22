@@ -15,7 +15,7 @@ const featured = (all.some((g) => g.data.featured) ? all.filter((g) => g.data.fe
 const posts = (await getPosts()).slice(0, 3);
 ---
 <Base>
-  <HeroSlideshow images={site.heroImages} eyebrow={`${site.location} Photographer`} title={site.tagline} galleryHref="/galleries/" connectHref="#connect" />
+  <HeroSlideshow images={site.heroImages} eyebrow={site.heroHeading || `${site.location} Photography`} title={site.tagline} galleryHref="/galleries/" connectHref="#connect" />
 
   {site.categories.length > 0 && (
     <nav class="pills wrap" aria-label="Browse by session type">
@@ -35,13 +35,13 @@ const posts = (await getPosts()).slice(0, 3);
     </section>
   )}
 
+  <KindWords />
+
   <Packages />
 
   <HowItWorks />
 
   <FAQ />
-
-  <KindWords />
 
   {site.services.length > 0 && (
     <section class="section services">
